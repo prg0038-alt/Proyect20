@@ -1,0 +1,105 @@
+/* ===ESTILO GENERAL=== */
+body {
+    font-family: Arial, sans-serif;
+    background: white;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}
+
+/* ===CONTENEDOR PRINCIPAL=== */
+.app {
+    width: 380px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* ===PESTAÑAS BOTONES=== */
+.tabs {
+    display: flex;
+    gap: 5px;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+}
+
+/* hover */
+.tabs button:hover {
+    background: #f5f5f5;
+}
+
+/* ===SISTEMA DE PESTAÑAS (IMPORTANTE)=== */
+
+/* TODAS OCULTAS */
+.tab {
+    display: none;
+}
+
+/* SOLO ACTIVA SE VE */
+.tab.active {
+    display: block;
+}
+
+/* ===CALENDARIO=== */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day {
+    border: 1px solid #eee;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* ===NOTAS=== */
+textarea {
+    width: 100%;
+    resize: none;
+    height: 80px;
+    margin-top: 10px;
+}
+
+.note {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #eee;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+/* ===PENDIENTES=== */
+.task {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #eee;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+/* checkbox alineado */
+.task input {
+    margin-right: 10px;
+}
+
+/* ===CANVAS=== */
+canvas {
+    border: 1px solid #ddd;
+    cursor: crosshair;
+}

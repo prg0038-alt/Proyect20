@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda Mejorada</title>
+
+    <!-- conexión con estilos -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ===CONTENEDOR PRINCIPAL=== -->
+<div class="app">
+
+    <!-- título -->
+    <h1>Agenda</h1>
+
+    <!-- ===BOTONES DE PESTAÑAS=== -->
+    <div class="tabs">
+
+        <!-- cambia a calendario -->
+        <button onclick="showTab('calendario')">Calendario</button>
+
+        <!-- cambia a pendientes -->
+        <button onclick="showTab('pendientes')">Pendientes</button>
+
+        <!-- cambia a dibujo -->
+        <button onclick="showTab('dibujo')">Dibujo</button>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- ===CALENDARIO=== -->
+    <!-- ===================== -->
+    <div id="calendario" class="tab active">
+
+        <div class="calendar-header">
+
+            <button onclick="changeMonth(-1)">⬅</button>
+            <h3 id="monthYear"></h3>
+            <button onclick="changeMonth(1)">➡</button>
+
+        </div>
+
+        <!-- calendario -->
+        <div id="calendar"></div>
+
+        <!-- notas SOLO dentro del calendario -->
+        <div id="notesBox">
+
+            <textarea id="noteInput" placeholder="Añadir nota..."></textarea>
+            <button onclick="addNote()">Guardar</button>
+
+            <div id="notesList"></div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- ===PENDIENTES=== -->
+    <!-- ===================== -->
+    <div id="pendientes" class="tab">
+
+        <h2>Pendientes globales</h2>
+
+        <!-- lista de pendientes -->
+        <div id="pendingList"></div>
+
+    </div>
+
+    <!-- ===================== -->
+    <!-- ===DIBUJO=== -->
+    <!-- ===================== -->
+    <div id="dibujo" class="tab">
+
+        <!-- lienzo -->
+        <canvas id="canvas" width="300" height="300"></canvas>
+
+        <!-- herramientas -->
+        <div>
+
+            <button onclick="setColor('black')">Negro</button>
+            <button onclick="setColor('red')">Rojo</button>
+            <button onclick="setColor('white')">Borrador</button>
+            <button onclick="clearCanvas()">Limpiar</button>
+
+        </div>
+
+        <button onclick="saveDrawing()">Guardar dibujo</button>
+
+        <!-- dibujos guardados -->
+        <div id="drawingsList"></div>
+
+    </div>
+
+</div>
+
+<!-- conexión JS -->
+<script src="script.js"></script>
+
+</body>
+</html>
