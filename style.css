@@ -1,38 +1,68 @@
 /* ===ESTILO GENERAL=== */
 body {
     font-family: Arial, sans-serif;
-    background: white;
+    background: #f6efd8;
     margin: 0;
     display: flex;
     justify-content: center;
     padding-top: 40px;
-}
+    position: relative;
+    overflow-x: hidden;
 
+}
+/* ===IMAGENES=== */
+.imagen{
+    position: fixed;
+    width: 650px;
+    height: auto;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.8;
+}
+.izquierda{
+    top: 0;
+    left: 0;
+}
+.derecha{
+    bottom: 0;
+    right: 0;
+}
 /* ===CONTENEDOR PRINCIPAL=== */
 .app {
     width: 380px;
+    background: white;
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===TITULO=== */
+h1{
+    text-align: center;
 }
 
 /* ===PESTAÑAS BOTONES=== */
 .tabs {
     display: flex;
     gap: 5px;
+    margin-block: 10px;
 }
 
 .tabs button {
     flex: 1;
     padding: 8px;
-    border: 1px solid #ddd;
-    background: white;
+    border: none;
+    background: #aca6ce;
+    color: white;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 /* hover */
 .tabs button:hover {
-    background: #f5f5f5;
+    background: #8d86b8;
 }
 
 /* ===SISTEMA DE PESTAÑAS (IMPORTANTE)=== */
@@ -51,24 +81,73 @@ body {
 .calendar-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 #calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
+    margin-block: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+/* ===DIAS DE LA SEMANA===*/
+.week-day{
+    text-align: center;
+    font-weight: bold;
+    background: #ebe8ea;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .day {
-    border: 1px solid #eee;
-    height: 40px;
+    border: 1px solid #ddd;
+    height: 45px;
+    cursor: pointer;
+    background: #fff3b0;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    position: relative;
+    transition: background 0.2s ease;
+    z-index: 1;
+}
+
+.day span{
+    background: #fff3b0;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bold;
+}
+
+/*hover*/
+.day:hover{
+    background: white;
+    border: 1px solid #aca6ce;
 }
 
 /* ===NOTAS=== */
+.note-dot{
+    width: 6px;
+    height: 6px;
+    background: #676494;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
 textarea {
     width: 100%;
     resize: none;
@@ -79,18 +158,20 @@ textarea {
 .note {
     display: flex;
     justify-content: space-between;
-    border: 1px solid #eee;
+    border: 1px solid #ddd;
     padding: 5px;
     margin-top: 5px;
+    background: #ebe8ea;
 }
 
 /* ===PENDIENTES=== */
 .task {
     display: flex;
     justify-content: space-between;
-    border: 1px solid #eee;
+    border: 1px solid #ddd;
     padding: 5px;
     margin-top: 5px;
+    background: #ebe8ea;
 }
 
 /* checkbox alineado */
@@ -98,8 +179,62 @@ textarea {
     margin-right: 10px;
 }
 
+/* ===BOTONES GENERALES===*/
+button{
+    margin-block: 5px;
+    padding: 6px;
+    border: none;
+    background: #aca6ce;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* hover */
+button:hover{
+    background: #8d86b8;
+}
 /* ===CANVAS=== */
 canvas {
     border: 1px solid #ddd;
+    background: white;
     cursor: crosshair;
+    margin-top: 10px;
+}
+/* ===COLORES===*/
+.color {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    margin: 2px;
+}
+
+/* colores */
+.black { background: black; }
+.red { background: red; }
+.blue { background: blue; }
+.green { background: green; }
+.yellow { background: yellow; }
+.orange { background: orange; }
+.purple { background: purple; }
+.pink { background: pink; }
+.brown { background: brown; }
+.gray { background: gray; }
+.white { background: white; }
+
+/* ===HERRAMIENTAS===*/
+.tool, .brushes{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+/* ===IMAGENES GUARDADAS===*/
+#drawingsList img{
+    width: 100px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
 }

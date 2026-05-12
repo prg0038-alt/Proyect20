@@ -11,6 +11,13 @@
 
 <body>
 
+<!-- IMAGEN ESQUINA SUPERIOR IZQUIERDA -->
+<img src="imagenes/fondo.png" class="imagen izquierda">
+
+<!-- IMAGEN ESQUINA INFERIOR DERECHA -->
+<img src="imagenes/fondo.png"class="imagen derecha">
+
+
 <!-- ===CONTENEDOR PRINCIPAL=== -->
 <div class="app">
 
@@ -64,7 +71,7 @@
     <!-- ===================== -->
     <div id="pendientes" class="tab">
 
-        <h2>Pendientes globales</h2>
+        <h2>Pendientes</h2>
 
         <!-- lista de pendientes -->
         <div id="pendingList"></div>
@@ -82,13 +89,27 @@
         <!-- herramientas -->
         <div>
 
-            <button onclick="setColor('black')">Negro</button>
-            <button onclick="setColor('red')">Rojo</button>
-            <button onclick="setColor('white')">Borrador</button>
-            <button onclick="clearCanvas()">Limpiar</button>
+            <button onclick="setColor('black')" class="color black"></button>
+            <button onclick="setColor('red')" class="color red"></button>
+            <button onclick="setColor('blue')" class="color blue"></button>
+            <button onclick="setColor('green')" class="color green"></button>
+            <button onclick="setColor('yellow')" class="color yellow"></button>
+            <button onclick="setColor('orange')" class="color orange"></button>
+            <button onclick="setColor('purple')" class="color purple"></button>
+            <button onclick="setColor('pink')" class="color pink"></button>
+            <button onclick="setColor('brown')" class="color brown"></button>
+            <button onclick="setColor('gray')" class="color gray"></button>
+            <button onclick="setColor('white')" class="color white"></button>
+            <button onclick="clearCanvas()">🧹</button>
 
         </div>
 
+        <!-- ===GROSOR PINCEL=== -->
+        <div class="brushes">
+            <button onclick="setBrushSize(2)">Fino</button>
+            <button onclick="setBrushSize(5)">Medio</button>
+            <button onclick="setBrushSize(10)">Groeso</button>
+        </div>
         <button onclick="saveDrawing()">Guardar dibujo</button>
 
         <!-- dibujos guardados -->

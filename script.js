@@ -12,6 +12,7 @@ let drawings = [];
 
 let drawing = false;
 let color = "black";
+let brushSize = 2;
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
@@ -54,15 +55,39 @@ function renderCalendar() {
 
     monthYear.textContent = names[month] + " " + year;
 
+    //dias semana
+    let weekDays = ["L", "M", "X", "J", "V", "S", "D"];
+
+    //primer dia del mes
+    let firstDay  = new Date(year, month, 1).getDay();
+
+    //ajustar lunes primero
+    firstDay  = firstDay  === 0 ? 6 : firstDay  - 1;
+
+    //total dias mes
     let days = new Date(year, month + 1, 0).getDate();
 
     let html = "";
+    //nombre semana
+    weekDays.forEach(day => {
+        html += `<div class="week-day">${day}</div>`;
+    });
 
+    //espacios vacios
+    for(let i = 0; i < firstDay; i++){
+        html+= '<div></div>';
+    }
+
+    //dias
     for (let i = 1; i <= days; i++) {
 
         let key = `${year}-${month}-${i}`;
+        let isActive = selectedDate === key;
 
-        html += `<div class="day" onclick="selectDay('${key}')">${i}</div>`;
+        html += `<div class="day ${isActive ? "active" : ""}" onclick="selectDay('${key}')">
+                    <span>${i}</span>
+                    ${notesByDate[key] ? `<div class="note-dot"></div>` : ""}
+                </div>`;
     }
 
     calendar.innerHTML = html;
@@ -104,15 +129,24 @@ function addNote() {
         notesByDate[selectedDate] = [];
     }
 
-    let note = input.value;
+    let noteObj = {
+        id:Date.now(),
+        text: input.value
+    };
 
-    notesByDate[selectedDate].push(note);
-    allNotes.push({ text: note, done: false });
+    notesByDate[selectedDate].push(noteObj);
+    allNotes.push({
+        id: noteObj.id,
+        text: noteObj.text,
+        done: false,
+        date: selectedDate
+    });
 
     input.value = "";
 
     loadNotes();
     loadPending();
+    renderCalendar();
 }
 
 
@@ -125,14 +159,14 @@ function loadNotes() {
 
     if (!notesByDate[selectedDate]) return;
 
-    notesByDate[selectedDate].forEach((n, i) => {
+    notesByDate[selectedDate].forEach((n) => {
 
         let div = document.createElement("div");
         div.className = "note";
 
         div.innerHTML = `
-            <span>${n}</span>
-            <button onclick="deleteNote(${i})">X</button>
+            <span>${n.text}</span>
+            <button onclick="deleteNote(${n.id})">X</button>
         `;
 
         list.appendChild(div);
@@ -141,9 +175,24 @@ function loadNotes() {
 
 
 // borrar nota
-function deleteNote(i) {
-    notesByDate[selectedDate].splice(i, 1);
+function deleteNote(id) {
+
+    //borrar para el calendario
+    for (let date in notesByDate){
+        notesByDate[date] = notesByDate[date].filter(n => n.id !== id);
+
+        //Para poder borrar el punto si se borra la clave si esta vacia
+        if(notesByDate[date].length === 0){
+            delete notesByDate[date];
+        }
+    }
+
+    //borrar de pendientes
+    allNotes = allNotes.filter(n => n.id !== id);
+
     loadNotes();
+    loadPending();
+    renderCalendar();
 }
 
 
@@ -156,19 +205,19 @@ function loadPending() {
 
     list.innerHTML = "";
 
-    allNotes.forEach((task, i) => {
+    allNotes.forEach((task) => {
 
         let div = document.createElement("div");
         div.className = "task";
 
         div.innerHTML = `
             <div>
-                <input type="checkbox" onchange="toggleTask(${i})" ${task.done ? "checked" : ""}>
+                <input type="checkbox" onchange="toggleTask(${task.id})" ${task.done ? "checked" : ""}>
                 <span style="text-decoration:${task.done ? 'line-through' : 'none'}">
                     ${task.text}
                 </span>
             </div>
-            <button onclick="deleteTask(${i})">X</button>
+            <button onclick="deleteTask(${task.id})">X</button>
         `;
 
         list.appendChild(div);
@@ -177,16 +226,46 @@ function loadPending() {
 
 
 // marcar
-function toggleTask(i) {
-    allNotes[i].done = !allNotes[i].done;
+function toggleTask(id) {
+
+    //buscar la tarea por id
+    let task = allNotes.find(t => t.id === id);
+
+    //si existe, cambiar estado
+    if(task){
+        task.done = !task.done;
+    }
+
     loadPending();
+    renderCalendar();
 }
 
 
 // borrar
-function deleteTask(i) {
-    allNotes.splice(i, 1);
+function deleteTask(id) {
+
+    let task = allNotes.find(t => t.id === id);
+
+    //quitar del calendario
+    if(!task) return;
+
+    let date = task.date;
+
+    //borrar de pendientes
+    allNotes = allNotes.filter(t => t.id !== id);
+
+    //borrar del calendario
+    if(notesByDate[date]) {
+        notesByDate[date] = notesByDate[date].filter(n => n.id !== id);
+
+        if (notesByDate[date].length === 0) {
+            delete notesByDate[date];
+        }
+    }
+
+    loadNotes();
     loadPending();
+    renderCalendar();
 }
 
 
@@ -207,7 +286,12 @@ canvas.addEventListener("mousemove", e => {
     if (!drawing) return;
 
     ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
+
+    //Grosor
+    ctx.lineWidth = brushSize;
+
+    //Para suavizar la lineas
+    ctx.lineCap = "round";
 
     ctx.lineTo(e.offsetX, e.offsetY);
     ctx.stroke();
@@ -221,6 +305,12 @@ function setColor(c) {
     color = c;
 }
 
+// ============================
+// CAMBIAR GROSOR DEL PINCEL
+// ============================
+function setBrushSize(size){
+    brushSize = size;
+}
 
 // ============================
 // LIMPIAR CANVAS
